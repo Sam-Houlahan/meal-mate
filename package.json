@@ -8,12 +8,14 @@
     "knex": "knex",
     "start": "nodemon --watch server server/index & webpack --watch",
     "test": "tape -r babel-register 'test/**/*.test.js' | tap-diff",
-    "watch": "nodemon -e js,jsx -x npm test"
+    "watch": "nodemon -e js,jsx -x npm test",
+    "debug": " node --inspect --debug-brk index.js"
   },
   "babel": {
     "presets": [
       "es2015",
-      "react"
+      "react",
+      "stage-0"
     ]
   },
   "author": "EDA",
@@ -23,6 +25,7 @@
     "babel-loader": "^6.2.10",
     "babel-preset-es2015": "^6.18.0",
     "babel-preset-react": "^6.16.0",
+    "babel-preset-stage-0": "^6.24.1",
     "babel-register": "^6.18.0",
     "enzyme": "^2.7.0",
     "jsx-loader": "^0.13.2",
@@ -39,6 +42,7 @@
     "body-parser": "^1.15.2",
     "express": "^4.14.0",
     "knex": "^0.13.0",
+    "react-router-dom": "^4.1.1",
     "sqlite3": "^3.1.8"
   }
 }
