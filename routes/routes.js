@@ -12,4 +12,26 @@ router.post('/register', (req, res) => {
   })
 })
 
+router.post('/login'), (req, res) => {
+  db.getUser(req.server.get('connection'))
+  .then(() => {
+    res.redirect('/')
+  })
+}
+
+router.get('/category_history/:id'), (req, res) => {
+
+}
+
+router.get('/restaurant_history/:id'), (req, res) => {
+
+}
+
+router.post('/category_history/:id'), (req, res) => {
+
+}
+
+router.post('/restaurant_history/:id'), (req, res) => {
+
+}
 module.exports = router

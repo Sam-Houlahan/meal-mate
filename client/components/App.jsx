@@ -3,6 +3,8 @@ import {HashRouter as Router, Route, Link} from 'react-router-dom'
 import Food from './Food'
 import Register from './Register'
 import Login from './Login'
+import Navinstance from './Navbar'
+import Header from './Header'
 
 class App extends React.Component {
   constructor (props) {
@@ -21,8 +23,10 @@ class App extends React.Component {
     return (
       <Router>
         <div>
-          <Food />
-          <Login />
+          <Navinstance />
+          <Header />
+          <Route path='/food' component={Food} />
+          <Route path='/login' component={Login} />
           <Route path='/register' component={Register} />
 
         </div>
