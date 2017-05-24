@@ -1,36 +1,21 @@
 import React from 'react'
 
 import {randomOptions} from '../utilities/food'
-// function mealChoice () {
-//   const foodArr = []
 
-//   $('input[name=chinese]:checked')
-//     .map(function () {
-//       foodArr.push($(this).val())
-//     })
-
-//   $('input[name=vietnamese]:checked')
-//      .map(function () {
-//        foodArr.push($(this).val())
-//      })
-
-//   $('input[name=pizza]:checked').map(function () {
-//     foodArr.push($(this).val())
-//   })
-//   var rand = foodArr[Math.floor(Math.random() * foodArr.length)]
-//   console.log(rand)
-//   console.log($('input[name=Pizza]:checked'))
-// }
+import {getLocation, getFood} from '../api'
 
 class Food extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
-      checked: {
-        chinese: '',
-        vietnamese: '',
-        pizza: ''
-      }
+      errMessage: null,
+      chinese: false,
+      vietnamese: false,
+      pizza: false,
+      restaurants: [
+
+      ]
+
     }
     this.handleClick = this.handleClick.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
@@ -42,16 +27,27 @@ class Food extends React.Component {
     this.setState({[name]: value})
   }
   handleSubmit (event) {
-    console.log(this.state)
+    event.preventDefault()
+
     const option = randomOptions(this.state)
     console.log(option)
-
-    event.preventDefault()
+  }
+  componentDidMount () {
+    getLocation(25, (err, res) => {
+      console.log(res)
+      if (err) {
+        this.setState({errMessage: err})
+      }
+      this.setState({
+        restaurants: res.restaurants
+      })
+    })
   }
 
   render () {
     return (
       <div className='foodcategories' >
+
         <div className='foodbox' >
           <form onSubmit={this.handleSubmit} >
             <h4>Chinese<input type='checkbox' name='chinese' value='chinese' onClick={this.handleClick} /> </h4>
@@ -60,6 +56,18 @@ class Food extends React.Component {
             <button className='btn btn-lg btn-primary btn' type='submit'>Get your meal.</button>
           </form>
         </div>
+        {this.state.restaurants.map((restaurant) => {
+          return (
+            <div>
+              <h3>{restaurant.restaurant.name}</h3>
+              <p>Address: {restaurant.restaurant.location.address}</p>
+              <p>Average cost for two: ${restaurant.restaurant.average_cost_for_two }</p>
+              <p><a href={restaurant.restaurant.menu_url}>Menu</a></p>
+              <p>Rating: {restaurant.restaurant.user_rating.aggregate_rating}</p>
+              <img src={restaurant.restaurant.featured_image} />
+            </div>
+          )
+        })}
       </div>
 
     )
