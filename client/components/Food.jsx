@@ -2,20 +2,30 @@ import React from 'react'
 
 import {randomOptions} from '../utilities/food'
 
-import {getLocation, getFood} from '../api'
+import {getLocation} from '../api'
 
 class Food extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
       errMessage: null,
-      chinese: false,
-      vietnamese: false,
-      pizza: false,
+      cuisines: [
+        { id: 25,
+          chinese: false
+        },
+        {
+          id: 99,
+          vietnamese: false
+        },
+        {
+          id: 55,
+          pizza: false
+        }
+      ],
       restaurants: [
 
-      ]
-
+      ],
+      chosenopt: []
     }
     this.handleClick = this.handleClick.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
@@ -28,12 +38,23 @@ class Food extends React.Component {
   }
   handleSubmit (event) {
     event.preventDefault()
-
-    const option = randomOptions(this.state)
+    console.log(this.state)
+    let option = randomOptions(this.state)
     console.log(option)
+    if (option === 'chinese') {
+      option = this.state.cuisines[0].id
+    } else if (option === 'vietnamese') {
+      option = this.state.cuisines[1].id
+    } else if (option === 'pizza') {
+      option = this.state.cuisines[2].id
+    }
+    this.setState({chosenopt: option})
+    this.getRestaurants()
   }
-  componentDidMount () {
-    getLocation(25, (err, res) => {
+
+  getRestaurants () {
+    console.log(this.state.chosenopt)
+    getLocation(this.state.chosenopt, (err, res) => {
       console.log(res)
       if (err) {
         this.setState({errMessage: err})
@@ -49,6 +70,7 @@ class Food extends React.Component {
       <div className='foodcategories' >
 
         <div className='foodbox' >
+          <h3>Choose your cuisines: </h3>
           <form onSubmit={this.handleSubmit} >
             <h4>Chinese<input type='checkbox' name='chinese' value='chinese' onClick={this.handleClick} /> </h4>
             <h4>Vietnamese <input type='checkbox'onClick={this.handleClick} name='vietnamese' /> </h4>
