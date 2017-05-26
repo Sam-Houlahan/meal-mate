@@ -9,52 +9,90 @@ class Food extends React.Component {
     super(props)
     this.state = {
       errMessage: null,
-      cuisines: [
-        { id: 25,
-          chinese: false
+      checked: [],
+      cuisinesList: [
+        {
+          value: 1,
+          name: 'American'
         },
         {
-          id: 99,
-          vietnamese: false
+          value: 25,
+          name: 'Chinese'
         },
         {
-          id: 55,
-          pizza: false
+          value: 99,
+          name: 'Vietnamese'
+        },
+        {
+          value: 55,
+          name: 'Pizza'
+        },
+        {
+          value: 95,
+          name: 'Thai'
+        },
+        {
+          value: 298,
+          name: 'Fish and Chips'
+        }, {
+          value: 193,
+          name: 'BBQ'
+        },
+        {
+          value: 168,
+          name: 'Burger'
+        },
+        {
+          value: 40,
+          name: 'Fast Food'
+        }, {
+          value: 143,
+          name: 'Mexican'
+        },
+        {
+          value: 60,
+          name: 'Japanese'
+        }, {
+          value: 73,
+          name: 'Mexican'
+        }, {
+          value: 141,
+          name: 'Steak'
+        }, {
+          value: 67,
+          name: 'Korean'
         }
       ],
       restaurants: [
 
-      ],
-      chosenopt: []
+      ]
+
     }
     this.handleClick = this.handleClick.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
   }
   handleClick (e) {
-    const target = e.target
-    const value = target.type === 'checkbox' ? target.checked : target.value
-    const name = target.name
-    this.setState({[name]: value})
+    let checked = [...this.state.checked]
+
+    if (!checked.includes(e.target.value) && e.target.checked) {
+      checked.push(e.target.value)
+    }
+
+    if (checked.includes(e.target.value) && !e.target.checked) {
+      checked = checked.filter((item) => e.target.value !== item)
+    }
+
+    this.setState({ checked: checked })
   }
   handleSubmit (event) {
     event.preventDefault()
     console.log(this.state)
-    let option = randomOptions(this.state)
-    console.log(option)
-    if (option === 'chinese') {
-      option = this.state.cuisines[0].id
-    } else if (option === 'vietnamese') {
-      option = this.state.cuisines[1].id
-    } else if (option === 'pizza') {
-      option = this.state.cuisines[2].id
-    }
-    this.setState({chosenopt: option})
-    this.getRestaurants()
+    let option = randomOptions(this.state.checked)
+    this.getRestaurants(option)
   }
 
-  getRestaurants () {
-    console.log(this.state.chosenopt)
-    getLocation(this.state.chosenopt, (err, res) => {
+  getRestaurants (option) {
+    getLocation(option, (err, res) => {
       console.log(res)
       if (err) {
         this.setState({errMessage: err})
@@ -72,9 +110,11 @@ class Food extends React.Component {
         <div className='foodbox' >
           <h3>Choose your cuisines: </h3>
           <form onSubmit={this.handleSubmit} >
-            <h4>Chinese<input type='checkbox' name='chinese' value='chinese' onClick={this.handleClick} /> </h4>
-            <h4>Vietnamese <input type='checkbox'onClick={this.handleClick} name='vietnamese' /> </h4>
-            <h4>Pizza <input type='checkbox'onClick={this.handleClick} name='pizza' /> </h4>
+            {this.state.cuisinesList.map(cuisine => {
+              return (
+                <h4>{cuisine.name}<input type='checkbox' value={cuisine.value} onClick={this.handleClick} /> </h4>
+              )
+            })}
             <button className='btn btn-lg btn-primary btn' type='submit'>Get your meal.</button>
           </form>
         </div>
