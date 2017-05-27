@@ -10,6 +10,7 @@ class Food extends React.Component {
     this.state = {
       errMessage: null,
       checked: [],
+      distance: [],
       cuisinesList: [
         {
           value: 1,
@@ -64,12 +65,11 @@ class Food extends React.Component {
         }
       ],
       restaurants: [
-
       ]
-
     }
     this.handleClick = this.handleClick.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
+    this.handleChange = this.handleChange.bind(this)
   }
   handleClick (e) {
     let checked = [...this.state.checked]
@@ -86,14 +86,17 @@ class Food extends React.Component {
   }
   handleSubmit (event) {
     event.preventDefault()
-    console.log(this.state)
     let option = randomOptions(this.state.checked)
-    this.getRestaurants(option)
+    let radius = this.state.distance
+    this.getRestaurants(option, radius)
+  }
+  handleChange (e) {
+    let distance = e.target.value * 1000
+    this.setState({distance: distance})
   }
 
-  getRestaurants (option) {
-    getLocation(option, (err, res) => {
-      console.log(res)
+  getRestaurants (option, distance) {
+    getLocation(option, distance, (err, res) => {
       if (err) {
         this.setState({errMessage: err})
       }
@@ -104,29 +107,33 @@ class Food extends React.Component {
   }
 
   render () {
+    console.log(this.state.distance)
     return (
-      <div className='foodcategories' >
+      <div className='foodcategories text-center' >
 
-        <div className='foodbox' >
-          <h3>Choose your cuisines: </h3>
-          <form onSubmit={this.handleSubmit} >
+        <div className='foodbox text-center' >
+          <h3>Enter your potential cuisine options and let Meal-Mate choose for you: </h3>
+          <form onSubmit={this.handleSubmit} className='form' >
             {this.state.cuisinesList.map(cuisine => {
               return (
-                <h4>{cuisine.name}<input type='checkbox' value={cuisine.value} onClick={this.handleClick} /> </h4>
+                <h4>{cuisine.name } <input type='checkbox' value={cuisine.value} onClick={this.handleClick} /> </h4>
               )
             })}
-            <button className='btn btn-lg btn-primary btn' type='submit'>Get your meal.</button>
+            <h4 className='distance'> Distance:<br /><br /><input type='text' onChange={this.handleChange} className='form-control'placeholder='Enter distance youre willing to travel in kms' /></h4>
+            <button className='btn btn-lg btn-primary btn-block' type='submit'>Get your meal.</button>
           </form>
         </div>
         {this.state.restaurants.map((restaurant) => {
           return (
-            <div>
+            <div class='text-center'>
+
               <h3>{restaurant.restaurant.name}</h3>
               <p>Address: {restaurant.restaurant.location.address}</p>
               <p>Average cost for two: ${restaurant.restaurant.average_cost_for_two }</p>
               <p><a href={restaurant.restaurant.menu_url}>Menu</a></p>
               <p>Rating: {restaurant.restaurant.user_rating.aggregate_rating}</p>
               <img src={restaurant.restaurant.featured_image} />
+              <hr />
             </div>
           )
         })}

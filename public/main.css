@@ -5,6 +5,9 @@ body {
 
 }
 
+
+
+
 .form-signin {
   max-width: 330px;
   padding: 15px;
@@ -69,4 +72,10 @@ background-image: url('./images/test1.jpeg');
 
 }
 
+.form {
+  max-width: 430px;
+  padding: 15px;
+  margin: 0 auto;
+
+}
 
