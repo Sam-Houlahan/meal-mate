@@ -4,8 +4,10 @@ body {
   background-color: #eee;
 
 }
+p{
 
-
+  font-size:18px;
+}
 
 
 .form-signin {
@@ -79,3 +81,6 @@ background-image: url('./images/test1.jpeg');
 
 }
 
+.option {
+  font-size:25px;
+}

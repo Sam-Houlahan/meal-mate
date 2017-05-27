@@ -11,6 +11,10 @@ class Food extends React.Component {
       errMessage: null,
       checked: [],
       distance: [],
+      budget: [],
+      name: [],
+      option: [],
+      displayMessage: false,
       cuisinesList: [
         {
           value: 1,
@@ -67,12 +71,15 @@ class Food extends React.Component {
       restaurants: [
       ]
     }
+
     this.handleClick = this.handleClick.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
     this.handleChange = this.handleChange.bind(this)
+    this.handleBudget = this.handleBudget.bind(this)
   }
   handleClick (e) {
     let checked = [...this.state.checked]
+    let name = [...this.state.name]
 
     if (!checked.includes(e.target.value) && e.target.checked) {
       checked.push(e.target.value)
@@ -83,16 +90,28 @@ class Food extends React.Component {
     }
 
     this.setState({ checked: checked })
+    this.setState({ name: name })
   }
   handleSubmit (event) {
     event.preventDefault()
     let option = randomOptions(this.state.checked)
     let radius = this.state.distance
+    let stateOption = Number(option)
+    console.log(stateOption)
     this.getRestaurants(option, radius)
+    let foodName = this.state.cuisinesList.filter((name) => stateOption === name.value)
+
+    this.setState({option: foodName[0].name, displayMessage: true})
   }
+
   handleChange (e) {
     let distance = e.target.value * 1000
     this.setState({distance: distance})
+  }
+
+  handleBudget (e) {
+    let budget = e.target.value
+    this.setState({budget: budget})
   }
 
   getRestaurants (option, distance) {
@@ -107,38 +126,40 @@ class Food extends React.Component {
   }
 
   render () {
-    console.log(this.state.distance)
     return (
       <div className='foodcategories text-center' >
 
         <div className='foodbox text-center' >
-          <h3>Enter your potential cuisine options and let Meal-Mate choose for you: </h3>
+          <h3>Click your potential cuisine options and let Meal-Mate choose for you: </h3>
           <form onSubmit={this.handleSubmit} className='form' >
             {this.state.cuisinesList.map(cuisine => {
               return (
-                <h4>{cuisine.name } <input type='checkbox' value={cuisine.value} onClick={this.handleClick} /> </h4>
+                <h4>{cuisine.name } <input type='checkbox' name={cuisine.name} value={cuisine.value} onClick={this.handleClick} /> </h4>
               )
             })}
             <h4 className='distance'> Distance:<br /><br /><input type='text' onChange={this.handleChange} className='form-control'placeholder='Enter distance youre willing to travel in kms' /></h4>
+            <h4 className='distance'> Budget:<br /><br /><input type='text' onChange={this.handleBudget} className='form-control'placeholder='Enter your budget' /></h4>
+
             <button className='btn btn-lg btn-primary btn-block' type='submit'>Get your meal.</button>
           </form>
+          {this.state.displayMessage && <h4> Meal-Mate has chosen <strong className='option' >{this.state.option}</strong>  Enjoy!</h4>}
         </div>
+
         {this.state.restaurants.map((restaurant) => {
           return (
             <div class='text-center'>
 
               <h3>{restaurant.restaurant.name}</h3>
-              <p>Address: {restaurant.restaurant.location.address}</p>
-              <p>Average cost for two: ${restaurant.restaurant.average_cost_for_two }</p>
-              <p><a href={restaurant.restaurant.menu_url}>Menu</a></p>
-              <p>Rating: {restaurant.restaurant.user_rating.aggregate_rating}</p>
+              <p><strong>Address:</strong> {restaurant.restaurant.location.address}</p>
+              <p><strong>Average cost for two:</strong> ${restaurant.restaurant.average_cost_for_two }</p>
+              <p><a href={restaurant.restaurant.menu_url}><strong>Menu</strong></a></p>
+              <p><strong>Rating:</strong> {restaurant.restaurant.user_rating.aggregate_rating}</p>
               <img src={restaurant.restaurant.featured_image} />
               <hr />
             </div>
           )
         })}
       </div>
-
     )
   }
 }
