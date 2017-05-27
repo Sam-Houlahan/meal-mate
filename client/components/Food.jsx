@@ -96,9 +96,9 @@ class Food extends React.Component {
     event.preventDefault()
     let option = randomOptions(this.state.checked)
     let radius = this.state.distance
+    let budget = this.state.budget * 2
     let stateOption = Number(option)
-    console.log(stateOption)
-    this.getRestaurants(option, radius)
+    this.getRestaurants(option, radius, budget)
     let foodName = this.state.cuisinesList.filter((name) => stateOption === name.value)
 
     this.setState({option: foodName[0].name, displayMessage: true})
@@ -114,18 +114,19 @@ class Food extends React.Component {
     this.setState({budget: budget})
   }
 
-  getRestaurants (option, distance) {
-    getLocation(option, distance, (err, res) => {
+  getRestaurants (option, distance, budget) {
+    getLocation(option, distance, budget, (err, res) => {
       if (err) {
         this.setState({errMessage: err})
       }
       this.setState({
-        restaurants: res.restaurants
+        restaurants: res
       })
     })
   }
 
   render () {
+    console.log(this.state.restaurants)
     return (
       <div className='foodcategories text-center' >
 
@@ -138,11 +139,11 @@ class Food extends React.Component {
               )
             })}
             <h4 className='distance'> Distance:<br /><br /><input type='text' onChange={this.handleChange} className='form-control'placeholder='Enter distance youre willing to travel in kms' /></h4>
-            <h4 className='distance'> Budget:<br /><br /><input type='text' onChange={this.handleBudget} className='form-control'placeholder='Enter your budget' /></h4>
+            <h4 className='distance'> Budget:<br /><br /><input type='text' onChange={this.handleBudget} className='form-control'placeholder='Enter what you would like to pay per person' /></h4>
 
             <button className='btn btn-lg btn-primary btn-block' type='submit'>Get your meal.</button>
           </form>
-          {this.state.displayMessage && <h4> Meal-Mate has chosen <strong className='option' >{this.state.option}</strong>  Enjoy!</h4>}
+          {this.state.displayMessage && <h4> Meal-Mate has chosen <strong className='option' >{this.state.option}</strong>  Enjoy!</h4>}<br />
         </div>
 
         {this.state.restaurants.map((restaurant) => {

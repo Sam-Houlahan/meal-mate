@@ -1,6 +1,6 @@
 import request from 'superagent'
 
-export function getFood (lat, lon, cuisines, radius, cb) {
+export function getFood (lat, lon, cuisines, radius, budget, cb) {
   request.get('https://developers.zomato.com/api/v2.1/search')
   .query({lat, lon, radius, cuisines, sort: 'rating', count: 10})
   .set('user-key', '590e77256911b750af3aca8f320b2cb7')
@@ -8,12 +8,17 @@ export function getFood (lat, lon, cuisines, radius, cb) {
   if (err) {
     return console.error(err.message)
   }
-  const foodRes = res.body
+  let foodRes = res.body
+  foodRes = foodRes.restaurants.filter((x) => {
+    console.log(x.restaurant.average_cost_for_two)
+    return x.restaurant.average_cost_for_two <= budget
+  })
+  console.log(foodRes)
   cb(null, foodRes)
 })
 }
 
-export function getLocation (cuisines, radius, cb) {
+export function getLocation (cuisines, radius, budget, cb) {
   request.get('https://ipinfo.io/')
   .set('Accept', 'application/json')
   .end((err, res) => {
@@ -24,7 +29,7 @@ export function getLocation (cuisines, radius, cb) {
     let latLon = location.loc.split(',')
     let lat = latLon[0]
     let lon = latLon[1]
-    getFood(lat, lon, cuisines, radius, (error, response) => {
+    getFood(lat, lon, cuisines, radius, budget, (error, response) => {
       if (error) {
         return console.error(err.message)
       }
