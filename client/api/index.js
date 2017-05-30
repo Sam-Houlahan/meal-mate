@@ -6,29 +6,25 @@ export function getFood (lat, lon, cuisines, radius, budget, cb) {
   .set('user-key', '590e77256911b750af3aca8f320b2cb7')
 .end((err, res) => {
   if (err) {
-    return console.error(err.message)
   }
   let foodRes = res.body
   foodRes = foodRes.restaurants.filter((x) => {
-    console.log(x.restaurant.average_cost_for_two)
     return x.restaurant.average_cost_for_two <= budget
   })
-  console.log(foodRes)
   cb(null, foodRes)
 })
 }
 
 export function getLocation (cuisines, radius, budget, cb) {
-  request.get('https://ipinfo.io/')
+  request.post('https://www.googleapis.com/geolocation/v1/geolocate?key=AIzaSyD4CO-M2uHSNB-vJagAc9j8wuVHGh-OP9E')
   .set('Accept', 'application/json')
   .end((err, res) => {
     if (err) {
       return console.error(err.message)
     }
-    const location = res.body
-    let latLon = location.loc.split(',')
-    let lat = latLon[0]
-    let lon = latLon[1]
+    const currentLocation = res.body
+    let lat = currentLocation.location.lat
+    let lon = currentLocation.location.lng
     getFood(lat, lon, cuisines, radius, budget, (error, response) => {
       if (error) {
         return console.error(err.message)

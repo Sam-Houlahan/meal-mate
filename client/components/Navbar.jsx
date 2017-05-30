@@ -17,7 +17,6 @@ const Navinstance = () => {
         <Navbar.Collapse>
           <Nav>
             <NavItem eventKey={1} href='#'>Home</NavItem>
-
           </Nav>
           <Nav pullRight>
             <NavItem eventKey={1} ><Link to='/login'>Log in</Link></NavItem>

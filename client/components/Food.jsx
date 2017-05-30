@@ -1,7 +1,7 @@
 import React from 'react'
+import classNames from 'classnames'
 
 import {randomOptions} from '../utilities/food'
-
 import {getLocation} from '../api'
 
 class Food extends React.Component {
@@ -18,54 +18,68 @@ class Food extends React.Component {
       cuisinesList: [
         {
           value: 1,
-          name: 'American'
+          name: 'American',
+          checked: false
         },
         {
           value: 25,
-          name: 'Chinese'
+          name: 'Chinese',
+          checked: false
         },
         {
           value: 99,
-          name: 'Vietnamese'
+          name: 'Vietnamese',
+          checked: false
         },
         {
           value: 55,
-          name: 'Pizza'
+          name: 'Pizza',
+          checked: false
         },
         {
           value: 95,
-          name: 'Thai'
+          name: 'Thai',
+          checked: false
         },
         {
           value: 298,
-          name: 'Fish and Chips'
+          name: 'Fish and Chips',
+          checked: false
         }, {
           value: 193,
-          name: 'BBQ'
+          name: 'BBQ',
+          checked: false
         },
         {
           value: 168,
-          name: 'Burger'
+          name: 'Burger',
+          checked: false
         },
         {
           value: 40,
-          name: 'Fast Food'
+          name: 'Fast Food',
+          checked: false
         }, {
           value: 143,
-          name: 'Mexican'
+          name: 'Healthy Food',
+          checked: false
         },
         {
           value: 60,
-          name: 'Japanese'
+          name: 'Japanese',
+          checked: false
         }, {
           value: 73,
-          name: 'Mexican'
+          name: 'Mexican',
+          checked: false
         }, {
           value: 141,
-          name: 'Steak'
+          name: 'Steak',
+          checked: false
         }, {
           value: 67,
-          name: 'Korean'
+          name: 'Korean',
+          checked: false
         }
       ],
       restaurants: [
@@ -77,30 +91,26 @@ class Food extends React.Component {
     this.handleChange = this.handleChange.bind(this)
     this.handleBudget = this.handleBudget.bind(this)
   }
-  handleClick (e) {
-    let checked = [...this.state.checked]
-    let name = [...this.state.name]
-
-    if (!checked.includes(e.target.value) && e.target.checked) {
-      checked.push(e.target.value)
-    }
-
-    if (checked.includes(e.target.value) && !e.target.checked) {
-      checked = checked.filter((item) => e.target.value !== item)
-    }
-
-    this.setState({ checked: checked })
-    this.setState({ name: name })
+  handleClick (cuisine) {
+    const newCuisinesList = [...this.state.cuisinesList]
+    const index = newCuisinesList.findIndex((theCuisine) => theCuisine === cuisine)
+    console.log(index)
+    cuisine.checked = !cuisine.checked
+    newCuisinesList[index] = cuisine
+    this.setState({
+      cuisinesList: newCuisinesList
+    })
   }
+
   handleSubmit (event) {
     event.preventDefault()
-    let option = randomOptions(this.state.checked)
+    const clickedOptions = this.state.cuisinesList.filter((cuisine) => cuisine.checked).map((cuisine) => cuisine.value.toString())
+    let option = randomOptions(clickedOptions)
     let radius = this.state.distance
     let budget = this.state.budget * 2
     let stateOption = Number(option)
     this.getRestaurants(option, radius, budget)
     let foodName = this.state.cuisinesList.filter((name) => stateOption === name.value)
-
     this.setState({option: foodName[0].name, displayMessage: true})
   }
 
@@ -126,18 +136,24 @@ class Food extends React.Component {
   }
 
   render () {
-    console.log(this.state.restaurants)
     return (
       <div className='foodcategories text-center' >
 
         <div className='foodbox text-center' >
           <h3>Click your potential cuisine options and let Meal-Mate choose for you: </h3>
+          <div className='container'>
+            <div className='col-xs-4 ' />
+            <div className='col-xs-4 '>
+              <div className='buttons'>
+                {this.state.cuisinesList.map(cuisine => {
+                  return (
+                    <button name={cuisine.name} value={cuisine.value} className={classNames('buttons', 'btns', { 'checked': cuisine.checked })} onClick={() => this.handleClick(cuisine)} > {cuisine.name}</button>
+                  )
+                })}
+              </div>
+            </div>
+          </div>
           <form onSubmit={this.handleSubmit} className='form' >
-            {this.state.cuisinesList.map(cuisine => {
-              return (
-                <h4>{cuisine.name } <input type='checkbox' name={cuisine.name} value={cuisine.value} onClick={this.handleClick} /> </h4>
-              )
-            })}
             <h4 className='distance'> Distance:<br /><br /><input type='text' onChange={this.handleChange} className='form-control'placeholder='Enter distance youre willing to travel in kms' /></h4>
             <h4 className='distance'> Budget:<br /><br /><input type='text' onChange={this.handleBudget} className='form-control'placeholder='Enter what you would like to pay per person' /></h4>
 
@@ -148,8 +164,7 @@ class Food extends React.Component {
 
         {this.state.restaurants.map((restaurant) => {
           return (
-            <div class='text-center'>
-
+            <div className='text-center'>
               <h3>{restaurant.restaurant.name}</h3>
               <p><strong>Address:</strong> {restaurant.restaurant.location.address}</p>
               <p><strong>Average cost for two:</strong> ${restaurant.restaurant.average_cost_for_two }</p>
