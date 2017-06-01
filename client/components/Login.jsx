@@ -14,7 +14,6 @@ class Login extends React.Component {
 
   handleSubmit (evt) {
     evt.preventDefault()
-    this.props.saveUser(this.state.user)
   }
 
   handleChange (evt) {
