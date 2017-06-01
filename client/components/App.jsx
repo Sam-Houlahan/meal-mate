@@ -15,7 +15,6 @@ class App extends React.Component {
   }
   saveUser (user) {
     let users = this.state.users
-
     this.setState({users})
   }
 

@@ -3,7 +3,13 @@ body {
   padding-bottom: 40px;
   background-color: #eee;
 
+
 }
+p{
+
+  font-size:18px;
+}
+
 
 .form-signin {
   max-width: 330px;
@@ -44,6 +50,7 @@ body {
   opacity: 0.8;
   background-color: black;
   z-index: 2;
+
 }
 
 
@@ -69,4 +76,66 @@ background-image: url('./images/test1.jpeg');
 
 }
 
+.form {
+  max-width: 430px;
+  padding: 15px;
+  margin: 0 auto;
+
+}
+
+.option {
+  font-size:25px;
+}
+
+.buttons {
+   margin: 3px auto;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  max-width: 320px;
+  padding:5px;
+  
+}
+.btns {
+      background: #2893db;
+  background-image: -webkit-linear-gradient(top, #2893db, #143a52);
+  background-image: -moz-linear-gradient(top, #2893db, #143a52);
+  background-image: -ms-linear-gradient(top, #2893db, #143a52);
+  background-image: -o-linear-gradient(top, #2893db, #143a52);
+  background-image: linear-gradient(to bottom, #2893db, #143a52);
+  -webkit-border-radius: 10;
+  -moz-border-radius: 10;
+  border-radius: 10px;
+  border-color:black;
+  font-family: Arial;
+  color: #ffffff;
+  font-size: 1.5em;
+
+  padding: 10px 20px 10px 20px;
+  text-decoration: none;
+}
+
+
+.btns:hover {
+  background: #61e08d;
+  background-image: -webkit-linear-gradient(top, #61e08d, #3c7a57);
+  background-image: -moz-linear-gradient(top, #61e08d, #3c7a57);
+  background-image: -ms-linear-gradient(top, #61e08d, #3c7a57);
+  background-image: -o-linear-gradient(top, #61e08d, #3c7a57);
+  background-image: linear-gradient(to bottom, #61e08d, #3c7a57);
+  text-decoration: none;
+}
+
+
+
+.checked {
+    background: #61e08d;
+  background-image: -webkit-linear-gradient(top, #61e08d, #3c7a57);
+  background-image: -moz-linear-gradient(top, #61e08d, #3c7a57);
+  background-image: -ms-linear-gradient(top, #61e08d, #3c7a57);
+  background-image: -o-linear-gradient(top, #61e08d, #3c7a57);
+  background-image: linear-gradient(to bottom, #61e08d, #3c7a57);
+  text-decoration: none;
+}
 
