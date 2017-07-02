@@ -64,6 +64,10 @@
          "value": 67,
          "name": "Korean",
          "checked": false
+       }, { "value": 148,
+         "name": "Indian",
+         "checked": false
        }
+       
      ]
    }

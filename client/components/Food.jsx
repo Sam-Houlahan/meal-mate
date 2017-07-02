@@ -14,6 +14,7 @@ class Food extends React.Component {
       budget: [],
       name: [],
       option: [],
+      rating: null,
       cuisinesList: data.cuisinesList,
       displayMessage: false,
       restaurants: [
@@ -44,7 +45,14 @@ class Food extends React.Component {
     let stateOption = Number(option)
     this.getRestaurants(option, radius, budget)
     let foodName = this.state.cuisinesList.filter((name) => stateOption === name.value)
+    console.log(this.state.restaurants.restaurant)
     this.setState({option: foodName[0].name, displayMessage: true})
+
+    this.state.restaurants.map((rating) => {
+      if (rating.restaurant.user_rating.aggregate_rating > 3) {
+        this.setState({rating: true})
+      }
+    })
   }
 
   handleChange (e) {
@@ -69,6 +77,7 @@ class Food extends React.Component {
   }
 
   render () {
+    console.log(this.state.restaurants)
     return (
       <div className='foodcategories text-center' >
         <div className='foodbox text-center' >
@@ -101,7 +110,7 @@ class Food extends React.Component {
               <p><strong>Address:</strong> {restaurant.restaurant.location.address}</p>
               <p><strong>Average cost for two:</strong> ${restaurant.restaurant.average_cost_for_two }</p>
               <p><a href={restaurant.restaurant.menu_url}><strong>Menu</strong></a></p>
-              <p><strong>Rating:</strong> {restaurant.restaurant.user_rating.aggregate_rating}</p>
+              <p><strong>Rating:</strong> <span className={classNames('badrating', {'rating': this.state.rating})} >{restaurant.restaurant.user_rating.aggregate_rating } "{restaurant.restaurant.user_rating.rating_text}" </span></p>
               <img src={restaurant.restaurant.featured_image} />
               <hr />
             </div>
@@ -110,6 +119,6 @@ class Food extends React.Component {
       </div>
     )
   }
-}
+  }
 
 export default Food
