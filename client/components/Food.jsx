@@ -77,7 +77,6 @@ class Food extends React.Component {
   }
 
   render () {
-    console.log(this.state.restaurants)
     return (
       <div className='foodcategories text-center' >
         <div className='foodbox text-center' >
