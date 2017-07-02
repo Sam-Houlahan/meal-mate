@@ -3,85 +3,20 @@ import classNames from 'classnames'
 
 import {randomOptions} from '../utilities/food'
 import {getLocation} from '../api'
+const data = require('./data/cuisines.json')
 
 class Food extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
       errMessage: null,
-      checked: [],
       distance: [],
       budget: [],
       name: [],
       option: [],
+      rating: null,
+      cuisinesList: data.cuisinesList,
       displayMessage: false,
-      cuisinesList: [
-        {
-          value: 1,
-          name: 'American',
-          checked: false
-        },
-        {
-          value: 25,
-          name: 'Chinese',
-          checked: false
-        },
-        {
-          value: 99,
-          name: 'Vietnamese',
-          checked: false
-        },
-        {
-          value: 55,
-          name: 'Pizza',
-          checked: false
-        },
-        {
-          value: 95,
-          name: 'Thai',
-          checked: false
-        },
-        {
-          value: 298,
-          name: 'Fish and Chips',
-          checked: false
-        }, {
-          value: 193,
-          name: 'BBQ',
-          checked: false
-        },
-        {
-          value: 168,
-          name: 'Burger',
-          checked: false
-        },
-        {
-          value: 40,
-          name: 'Fast Food',
-          checked: false
-        }, {
-          value: 143,
-          name: 'Healthy Food',
-          checked: false
-        },
-        {
-          value: 60,
-          name: 'Japanese',
-          checked: false
-        }, {
-          value: 73,
-          name: 'Mexican',
-          checked: false
-        }, {
-          value: 141,
-          name: 'Steak',
-          checked: false
-        }, {
-          value: 67,
-          name: 'Korean',
-          checked: false
-        }
-      ],
       restaurants: [
       ]
     }
@@ -94,7 +29,6 @@ class Food extends React.Component {
   handleClick (cuisine) {
     const newCuisinesList = [...this.state.cuisinesList]
     const index = newCuisinesList.findIndex((theCuisine) => theCuisine === cuisine)
-    console.log(index)
     cuisine.checked = !cuisine.checked
     newCuisinesList[index] = cuisine
     this.setState({
@@ -111,7 +45,14 @@ class Food extends React.Component {
     let stateOption = Number(option)
     this.getRestaurants(option, radius, budget)
     let foodName = this.state.cuisinesList.filter((name) => stateOption === name.value)
+    console.log(this.state.restaurants.restaurant)
     this.setState({option: foodName[0].name, displayMessage: true})
+
+    this.state.restaurants.map((rating) => {
+      if (rating.restaurant.user_rating.aggregate_rating > 3) {
+        this.setState({rating: true})
+      }
+    })
   }
 
   handleChange (e) {
@@ -138,9 +79,8 @@ class Food extends React.Component {
   render () {
     return (
       <div className='foodcategories text-center' >
-
         <div className='foodbox text-center' >
-          <h3>Click your potential cuisine options and let Meal-Mate choose for you: </h3>
+          <h3>Click your potential cuisine options and let <strong>Meal-Mate</strong> choose for you: </h3>
           <div className='container'>
             <div className='col-xs-4 ' />
             <div className='col-xs-4 '>
@@ -157,7 +97,7 @@ class Food extends React.Component {
             <h4 className='distance'> Distance:<br /><br /><input type='text' onChange={this.handleChange} className='form-control'placeholder='Enter distance youre willing to travel in kms' /></h4>
             <h4 className='distance'> Budget:<br /><br /><input type='text' onChange={this.handleBudget} className='form-control'placeholder='Enter what you would like to pay per person' /></h4>
 
-            <button className='btn btn-lg btn-primary btn-block' type='submit'>Get your meal.</button>
+            <button className='btn btn-lg btn-primary btn-block' type='submit'>Click to get your option</button>
           </form>
           {this.state.displayMessage && <h4> Meal-Mate has chosen <strong className='option' >{this.state.option}</strong>  Enjoy!</h4>}<br />
         </div>
@@ -169,7 +109,7 @@ class Food extends React.Component {
               <p><strong>Address:</strong> {restaurant.restaurant.location.address}</p>
               <p><strong>Average cost for two:</strong> ${restaurant.restaurant.average_cost_for_two }</p>
               <p><a href={restaurant.restaurant.menu_url}><strong>Menu</strong></a></p>
-              <p><strong>Rating:</strong> {restaurant.restaurant.user_rating.aggregate_rating}</p>
+              <p><strong>Rating:</strong> <span className={classNames('badrating', {'rating': this.state.rating})} >{restaurant.restaurant.user_rating.aggregate_rating } "{restaurant.restaurant.user_rating.rating_text}" </span></p>
               <img src={restaurant.restaurant.featured_image} />
               <hr />
             </div>
@@ -178,6 +118,6 @@ class Food extends React.Component {
       </div>
     )
   }
-}
+  }
 
 export default Food

@@ -1,5 +1,7 @@
 import React from 'react'
-import {HashRouter as Router, Route, Link} from 'react-router-dom'
+import { withRouter } from 'react-router'
+import { graphql, gql } from 'react-apollo'
+import {HashRouter as Router, Link} from 'react-router-dom'
 
 class Login extends React.Component {
   constructor (props) {
@@ -7,14 +9,15 @@ class Login extends React.Component {
     this.state = {
       user: {
         email: '',
-        password: ''
+        password: '',
+        isAuthenticated:false
       }
     }
   }
 
   handleSubmit (evt) {
     evt.preventDefault()
-    this.props.saveUser(this.state.user)
+    this.setState({user})    
   }
 
   handleChange (evt) {
@@ -41,5 +44,29 @@ class Login extends React.Component {
       </Router>
     )
   }
+    signinUser = () => {
+    const {email, password} = this.state
+
+    this.props.signinUser({variables: {email, password}})
+      .then((response) => {
+        window.localStorage.setItem('graphcoolToken', response.data.signinUser.token)
+        this.props.router.replace('/')
+      }).catch((e) => {
+        console.error(e)
+        this.props.router.replace('/')
+      })
+  }
 }
-export default Login
+
+const userQuery = gql`
+  query {
+    user {
+      id
+    }
+  }
+`
+
+export default (
+  graphql(userQuery, { options: { fetchPolicy: 'network-only' }})(withRouter(Login))
+)
+
