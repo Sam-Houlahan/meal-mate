@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react'
 import Auth0Lock from 'auth0-lock'
 import { HashRouter as Router,withRouter,Link } from 'react-router-dom'
+import {connect} from 'react-redux'
 
 class LoginAuth0 extends Component {
 
@@ -20,6 +21,12 @@ class LoginAuth0 extends Component {
   _showLogin = () => {
     this._lock.show()
   }
+
+    static loggedIn () {
+    const token = AuthService.getToken()
+    return !!token && !AuthService.isTokenExpired(token)
+  }
+
 
   render() {
     return (
