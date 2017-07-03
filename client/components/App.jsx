@@ -12,6 +12,7 @@ const domain = 'meal-mate.au.auth0.com'
 class App extends React.Component {
   constructor (props) {
     super(props)
+    
   }
 
     logout = () => {

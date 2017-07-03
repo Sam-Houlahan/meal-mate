@@ -1,5 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
+import { createStore, combineReducers, applyMiddleware, compose } from 'react-redux'
 import { ApolloClient, ApolloProvider, createNetworkInterface } from 'react-apollo'
 import App from './components/App'
 import LoginAuth0 from './components/LoginAuth0'
@@ -25,9 +26,21 @@ networkInterface.use([{
 
 const client = new ApolloClient({ networkInterface })
 
+const store = createStore(
+  combineReducers({
+    apollo: client.reducer()
+  }),
+  {}, // initial state
+  compose(
+      applyMiddleware(client.middleware()),
+      // If you are using the devToolsExtension, you can add it here also
+      (typeof window.__REDUX_DEVTOOLS_EXTENSION__ !== 'undefined') ? window.__REDUX_DEVTOOLS_EXTENSION__() : f => f,
+  )
+)
+
 document.addEventListener('DOMContentLoaded', () => {
   ReactDOM.render(
-    <ApolloProvider client={client}>
+    <ApolloProvider store={store} client={client}>
       <Router>
         <div>
           <Route path='/' component={App} />
