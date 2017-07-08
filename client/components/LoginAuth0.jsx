@@ -5,10 +5,8 @@ import { HashRouter as Router,withRouter,Link } from 'react-router-dom'
 const clientId = '0uFsjVMbk3xpNP0NSvxAOTpelw1Db7Oh'
 const domain = 'meal-mate.au.auth0.com'
 class LoginAuth0 extends Component {
-
   constructor (props) {
     super(props)
-
     this._lock = new Auth0Lock(clientId, domain)
   }
 
