@@ -3,18 +3,15 @@ import { withRouter, Redirect } from 'react-router-dom'
 import { graphql, gql } from 'react-apollo'
 
 class CreateUser extends React.Component {
-
   static propTypes = {
     createUser: React.PropTypes.func.isRequired,
     data: React.PropTypes.object.isRequired,
   }
-
   state = {
     emailAddress: '',
     name: '',
     emailSubscription: false,
   }
-
   render () {
     if (this.props.data.loading) {
       return (<div>Loading</div>)

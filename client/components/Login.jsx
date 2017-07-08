@@ -46,7 +46,6 @@ class Login extends React.Component {
   }
     signinUser = () => {
     const {email, password} = this.state
-
     this.props.signinUser({variables: {email, password}})
       .then((response) => {
         window.localStorage.setItem('graphcoolToken', response.data.signinUser.token)
@@ -69,4 +68,3 @@ const userQuery = gql`
 export default (
   graphql(userQuery, { options: { fetchPolicy: 'network-only' }})(withRouter(Login))
 )
-

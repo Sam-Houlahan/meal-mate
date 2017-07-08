@@ -17,10 +17,8 @@ class Food extends React.Component {
       rating: null,
       cuisinesList: data.cuisinesList,
       displayMessage: false,
-      restaurants: [
-      ]
+      restaurants: []
     }
-
     this.handleClick = this.handleClick.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
     this.handleChange = this.handleChange.bind(this)
@@ -31,9 +29,7 @@ class Food extends React.Component {
     const index = newCuisinesList.findIndex((theCuisine) => theCuisine === cuisine)
     cuisine.checked = !cuisine.checked
     newCuisinesList[index] = cuisine
-    this.setState({
-      cuisinesList: newCuisinesList
-    })
+    this.setState({cuisinesList: newCuisinesList})
   }
 
   handleSubmit (event) {
@@ -45,9 +41,7 @@ class Food extends React.Component {
     let stateOption = Number(option)
     this.getRestaurants(option, radius, budget)
     let foodName = this.state.cuisinesList.filter((name) => stateOption === name.value)
-    console.log(this.state.restaurants.restaurant)
     this.setState({option: foodName[0].name, displayMessage: true})
-
     this.state.restaurants.map((rating) => {
       if (rating.restaurant.user_rating.aggregate_rating > 3) {
         this.setState({rating: true})
@@ -70,9 +64,7 @@ class Food extends React.Component {
       if (err) {
         this.setState({errMessage: err})
       }
-      this.setState({
-        restaurants: res
-      })
+      this.setState({restaurants: res})
     })
   }
 
@@ -88,7 +80,7 @@ class Food extends React.Component {
                 {this.state.cuisinesList.map(cuisine => {
                   return (
                     <button name={cuisine.name} value={cuisine.value} className={classNames('buttons', 'btns', { 'checked': cuisine.checked })} onClick={() => this.handleClick(cuisine)} > {cuisine.name}</button>
-                  )
+                    )
                 })}
               </div>
             </div>
@@ -96,7 +88,6 @@ class Food extends React.Component {
           <form onSubmit={this.handleSubmit} className='form' >
             <h4 className='distance'> Distance:<br /><br /><input type='text' onChange={this.handleChange} className='form-control'placeholder='Enter distance youre willing to travel in kms' /></h4>
             <h4 className='distance'> Budget:<br /><br /><input type='text' onChange={this.handleBudget} className='form-control'placeholder='Enter what you would like to pay per person' /></h4>
-
             <button className='btn btn-lg btn-primary btn-block' type='submit'>Click to get your option</button>
           </form>
           {this.state.displayMessage && <h4> Meal-Mate has chosen <strong className='option' >{this.state.option}</strong>  Enjoy!</h4>}<br />
@@ -116,8 +107,8 @@ class Food extends React.Component {
           )
         })}
       </div>
-    )
+      )
+    }
   }
-  }
-
+  
 export default Food

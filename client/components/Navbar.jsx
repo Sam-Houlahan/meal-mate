@@ -32,7 +32,6 @@ const Navinstance = (props) => {
         </Navbar.Collapse>
       </Navbar>
     </Router>
-
   )
 }
 
