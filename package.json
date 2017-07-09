@@ -1,8 +1,8 @@
 {
-  "name": "boilerplate-react-webpack",
+  "name": "Meal-Mate",
   "version": "0.1.1",
-  "description": "A webpack React starter",
-  "repository": "https://github.com/dev-academy-challenges/boilerplate-react-webpack.git",
+  "description": "App that aids you in the decision making proccess of where to eat",
+  "repository": "https://github.com/Sam-Houlahan/meal-mate",
   "main": "server/index.js",
   "scripts": {
     "knex": "knex",
