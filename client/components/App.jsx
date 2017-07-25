@@ -2,6 +2,7 @@ import React from 'react'
 import Navinstance from './Navbar'
 import Header from './Header'
 import LoginAuth0 from './LoginAuth0'
+import Food from './Food'
 import { graphql, gql } from 'react-apollo'
 import { withRouter } from 'react-router-dom'
 import { HashRouter as Router, Route, Link } from 'react-router-dom'
@@ -27,6 +28,7 @@ class App extends React.Component {
         <button onClick = {this.logout}>Logout </button>
         <Navinstance />
         <Header />
+        <Food />
       </div>
     )
   }
