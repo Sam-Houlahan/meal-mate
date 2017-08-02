@@ -79,8 +79,8 @@ class Food extends React.Component {
               <div className='buttons'>
                 {this.state.cuisinesList.map(cuisine => {
                   return (
-                    <button name={cuisine.name} value={cuisine.value} className={classNames('buttons', 'btns', { 'checked': cuisine.checked })} onClick={() => this.handleClick(cuisine)} > {cuisine.name}</button>
-                    )
+                    <button key={cuisine.value} name={cuisine.name} value={cuisine.value} className={classNames('buttons', 'btns', { 'checked': cuisine.checked })} onClick={() => this.handleClick(cuisine)} > {cuisine.name}</button>
+                  )
                 })}
               </div>
             </div>
@@ -107,8 +107,8 @@ class Food extends React.Component {
           )
         })}
       </div>
-      )
-    }
+    )
   }
-  
+}
+
 export default Food
