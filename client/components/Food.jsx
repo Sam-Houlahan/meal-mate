@@ -27,14 +27,12 @@ class Food extends React.Component {
 
   componentDidMount () {
     navigator.geolocation.getCurrentPosition((position, err) => {
-      console.log(position)
       if (err) console.log (err)
       this.setState({
         userLat: position.coords.latitude,
         userLng: position.coords.longitude
       })
-    }
-  )
+    })
   }
 
   handleClick (cuisine) {
@@ -87,7 +85,7 @@ class Food extends React.Component {
         <div className='foodbox text-center' >
           <h3>Click your potential cuisine options and let <strong>Meal-Mate</strong> choose for you: </h3>
           <div className='container'>
-            <div className='col-xs-4 ' />
+            <div className='col-xs-3 ' />
             <div className='col-xs-4 '>
               <div className='buttons'>
                 {this.state.cuisinesList.map(cuisine => {
@@ -101,24 +99,24 @@ class Food extends React.Component {
           <form onSubmit={this.handleSubmit} className='form' >
             <h4 className='distance'> Distance:<br /><br /><input type='text' onChange={this.handleDistance} className='form-control'placeholder='Enter distance youre willing to travel in kms' /></h4>
             <h4 className='distance'> Budget:<br /><br /><input type='text' onChange={this.handleBudget} className='form-control'placeholder='Enter what you would like to pay per person' /></h4>
-            <button className='btn btn-lg btn-primary btn-block' type='submit'>Click to get your option</button>
+            <button className='form-btn' type='submit'>Click to get your option</button>
           </form>
           {this.state.displayMessage && <h4> Meal-Mate has chosen <strong className='option' >{this.state.option}</strong>  Enjoy!</h4>}<br />
         </div>
-
-        {this.state.restaurants.map((restaurant, i) => {
-          return (
-            <div className='restaurants text-center' key={i}>
-              <h3>{restaurant.restaurant.name}</h3>
-              <p><strong>Address:</strong> {restaurant.restaurant.location.address}</p>
-              <p><strong>Average cost for two:</strong> ${restaurant.restaurant.average_cost_for_two }</p>
-              <p><a href={restaurant.restaurant.menu_url}><strong>Menu</strong></a></p>
-              <p><strong>Rating:</strong> <span className={classNames('badrating', {'rating': this.state.rating})} >{restaurant.restaurant.user_rating.aggregate_rating } "{restaurant.restaurant.user_rating.rating_text}" </span></p>
-              <img src={restaurant.restaurant.featured_image} />
-              <hr />
-            </div>
-          )
-        })}
+        <div className='flex-container'>
+          {this.state.restaurants.map((restaurant, i) => {
+            return (
+              <div className='restaurants' key={i}>
+                <img className='restaurants-img' src={restaurant.restaurant.featured_image} />
+                <h3>{restaurant.restaurant.name}</h3>
+                <p><strong>Address:</strong> {restaurant.restaurant.location.address}</p>
+                <p><strong>Average cost for two:</strong> ${restaurant.restaurant.average_cost_for_two }</p>
+                <p><a href={restaurant.restaurant.menu_url}><strong>Menu</strong></a></p>
+                <p><strong>Rating:</strong> <span className={classNames('badrating', {'rating': this.state.rating})} >{restaurant.restaurant.user_rating.aggregate_rating } "{restaurant.restaurant.user_rating.rating_text}" </span></p>
+              </div>
+            )
+          })}
+        </div>
       </div>
     )
   }

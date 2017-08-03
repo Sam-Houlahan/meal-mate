@@ -120,7 +120,40 @@ p{
   border:none
 }
 
+.form-btn {
+  font-family: 'Space Mono', monospace;
+  -webkit-box-shadow: 0px 1px 3px #000000;
+  -moz-box-shadow: 0px 1px 3px #000000;
+  box-shadow: 0px 1px 3px #000000;
+  color: #ffffff;
+  font-size: 20px;
+  background: #C41919;
+  padding: 10px 20px 10px 20px;
+  text-decoration: none;
+  border:none
+}
 
+.restaurants {
+  font-family: 'Space Mono', monospace;  
+  color:#ffffff;
+  width:452px;
+  height:602px;
+  background-color:#333333;
+  margin-bottom:50px;
+  margin:10px;
+}
+
+.restaurants-img {
+  width:452px;
+  height:268px;
+}
+
+.flex-container{
+  display: flex;
+  width: 100%;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
 
 .btns:hover {
   background: #b02323;
