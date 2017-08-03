@@ -67,7 +67,9 @@
        }, { "value": 148,
          "name": "Indian",
          "checked": false
+       },{ "value": 38,
+         "name": "European",
+         "checked": false
        }
-       
      ]
    }
