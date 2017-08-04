@@ -1,5 +1,8 @@
 import React from 'react'
 import classNames from 'classnames'
+import Scroll from 'react-scroll'
+var Element = Scroll.Element
+var scroller = Scroll.scroller
 
 import {randomOptions} from '../utilities/food'
 import {getFood} from '../api'
@@ -23,6 +26,15 @@ class Food extends React.Component {
     this.handleSubmit = this.handleSubmit.bind(this)
     this.handleDistance = this.handleDistance.bind(this)
     this.handleBudget = this.handleBudget.bind(this)
+  }
+
+  componentDidUpdate () {
+ scroller.scrollTo('restaurants', {
+  duration: 1500,
+  delay: 100,
+  smooth: true,
+  containerId: 'restaurants'
+    })
   }
 
   componentDidMount () {
@@ -96,15 +108,16 @@ class Food extends React.Component {
           <form onSubmit={this.handleSubmit} className='form' >
             <h4 className='distance'> Distance:<br /><br /><input type='text' onChange={this.handleDistance} className='form-control'placeholder='Enter distance youre willing to travel in kms' /></h4>
             <h4 className='distance'> Budget:<br /><br /><input type='text' onChange={this.handleBudget} className='form-control'placeholder='Enter what you would like to pay per person' /></h4>
-            <button className='btns' type='submit'>Click to get your option</button>
+            <button className='btns text-center' type='submit'>Click to get your option</button>
           </form>
           {this.state.displayMessage && <h4> Meal-Mate has chosen <strong className='option' >{this.state.option}</strong>  Enjoy!</h4>}<br />
         </div>
         <div className='flex-container'>
+          <Element name="restaurants"></Element>
           {this.state.restaurants.map((restaurant, i) => {
             return (
-              <div className='animated fadeIn restaurants' key={i}>
-                {restaurant.restaurant.featured_image !== "" ? <img className='restaurants-img' src={restaurant.restaurant.featured_image} /> : <h4 className='noimg'>Sorry this restaurant does not have a featured image to show :(</h4>}
+              <div className='animated fadeIn restaurants' id='restaurants' key={i}>
+                {restaurant.restaurant.featured_image !== '' ? <img className='restaurants-img' src={restaurant.restaurant.featured_image} /> : <h4 className='noimg'>Sorry this restaurant does not have a featured image to show :(</h4>}
                 <h3>{restaurant.restaurant.name}</h3>
                 <p><strong>Address:</strong> {restaurant.restaurant.location.address}</p>
                 <p><strong>Average cost for two:</strong> ${restaurant.restaurant.average_cost_for_two }</p>

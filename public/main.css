@@ -128,7 +128,7 @@ p{
   background: #C41919;
   padding: 10px 20px 10px 20px;
   text-decoration: none;
-  border:none
+  border:none;
 }
 
 .form-btn {
@@ -198,6 +198,23 @@ p{
 .footer {
   width:100%;
   background-color:#333333;
+  color:white;
+  font-family: 'Space Mono', monospace;  
+  bottom:0;
+  position: fixed;
+  text-align: center;
+  opacity: 0.8;
+  display:inline;
+}
+
+a {
+  color: inherit !important;
+}
+
+.footer a:hover {
+    color: #70726F;
+    -webkit-transition: all .5s ease;
+    transition: all .5s ease;
 }
 .rating {
   color:green;
