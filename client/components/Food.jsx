@@ -26,15 +26,7 @@ class Food extends React.Component {
     this.handleSubmit = this.handleSubmit.bind(this)
     this.handleDistance = this.handleDistance.bind(this)
     this.handleBudget = this.handleBudget.bind(this)
-  }
-
-  componentDidUpdate () {
- scroller.scrollTo('restaurants', {
-  duration: 1500,
-  delay: 100,
-  smooth: true,
-  containerId: 'restaurants'
-    })
+    this.handleScroll = this.handleScroll.bind(this)
   }
 
   componentDidMount () {
@@ -47,6 +39,15 @@ class Food extends React.Component {
     })
   }
 
+  handleScroll () {
+    scroller.scrollTo('restaurants', {
+      duration: 1500,
+      delay: 100,
+      smooth: true,
+      containerId: 'restaurants'
+    })
+  }
+
   handleClick (cuisine) {
     const newCuisinesList = [...this.state.cuisinesList]
     const index = newCuisinesList.findIndex(theCuisine => theCuisine === cuisine)
@@ -56,6 +57,7 @@ class Food extends React.Component {
   }
 
   handleSubmit (event) {
+    this.handleScroll()
     event.preventDefault()
     const clickedOptions = this.state.cuisinesList.filter(cuisine => cuisine.checked).map(cuisine => cuisine.value.toString())
     let option = randomOptions(clickedOptions)
