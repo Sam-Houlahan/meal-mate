@@ -84,30 +84,27 @@ class Food extends React.Component {
       <div className='foodcategories text-center' >
         <div className='foodbox text-center' >
           <h3>Click your potential cuisine options and let <strong>Meal-Mate</strong> choose for you: </h3>
-          <div className='container'>
-            <div className='col-xs-3 ' />
-            <div className='col-xs-4 '>
-              <div className='buttons'>
-                {this.state.cuisinesList.map(cuisine => {
-                  return (
-                    <button key={cuisine.value} name={cuisine.name} value={cuisine.value} className={classNames('buttons', 'btns', {'checked': cuisine.checked})} onClick={() => this.handleClick(cuisine)} > {cuisine.name}</button>
-                  )
-                })}
-              </div>
+          <div className='wrapper'>
+            <div className='buttons'>
+              {this.state.cuisinesList.map(cuisine => {
+                return (
+                  <button key={cuisine.value} name={cuisine.name} value={cuisine.value} className={classNames('buttons', 'btns', {'checked': cuisine.checked})} onClick={() => this.handleClick(cuisine)} > {cuisine.name}</button>
+                )
+              })}
             </div>
           </div>
           <form onSubmit={this.handleSubmit} className='form' >
             <h4 className='distance'> Distance:<br /><br /><input type='text' onChange={this.handleDistance} className='form-control'placeholder='Enter distance youre willing to travel in kms' /></h4>
             <h4 className='distance'> Budget:<br /><br /><input type='text' onChange={this.handleBudget} className='form-control'placeholder='Enter what you would like to pay per person' /></h4>
-            <button className='form-btn' type='submit'>Click to get your option</button>
+            <button className='btns' type='submit'>Click to get your option</button>
           </form>
           {this.state.displayMessage && <h4> Meal-Mate has chosen <strong className='option' >{this.state.option}</strong>  Enjoy!</h4>}<br />
         </div>
         <div className='flex-container'>
           {this.state.restaurants.map((restaurant, i) => {
             return (
-              <div className='restaurants' key={i}>
-                <img className='restaurants-img' src={restaurant.restaurant.featured_image} />
+              <div className='animated fadeIn restaurants' key={i}>
+                {restaurant.restaurant.featured_image !== "" ? <img className='restaurants-img' src={restaurant.restaurant.featured_image} /> : <h4 className='noimg'>Sorry this restaurant does not have a featured image to show :(</h4>}
                 <h3>{restaurant.restaurant.name}</h3>
                 <p><strong>Address:</strong> {restaurant.restaurant.location.address}</p>
                 <p><strong>Average cost for two:</strong> ${restaurant.restaurant.average_cost_for_two }</p>

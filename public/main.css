@@ -2,14 +2,11 @@ body {
   padding-top: 40px;
   padding-bottom: 40px;
   background-color: #eee;
-
-
 }
 p{
-
+  font-family: 'Space Mono', monospace;  
   font-size:18px;
 }
-
 
 .form-signin {
   max-width: 330px;
@@ -71,8 +68,10 @@ p{
   margin-top: 600px;
   margin-right: 30px;
   font-size: 50px;
-  z-index:3
-
+  z-index:3;
+  -webkit-text-shadow: 0px 1px 3px #000000;
+  -moz-text-shadow: 0px 1px 3px #000000;
+  text-shadow: 4px 5px 5px #000000;
 }
 
 .form {
@@ -98,16 +97,28 @@ p{
   
 } */
 
+
+.wrapper {
+  display: flex;
+  justify-content: center;
+  -webkit-flex-wrap: wrap;
+  flex-wrap: wrap;
+}
+
 .buttons {
   display: grid;
-  grid-template-columns: 250px 250px ;
+  grid-template-columns: 170px 170px ;
   grid-gap: 10px;
-  grid-auto-flow: row dense
+  text-align: center;
 }
 
 
 
 .btns {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  flex-wrap: wrap;
   font-family: 'Space Mono', monospace;
   -webkit-box-shadow: 0px 1px 3px #000000;
   -moz-box-shadow: 0px 1px 3px #000000;
@@ -141,15 +152,27 @@ p{
   background-color:#333333;
   margin-bottom:50px;
   margin:10px;
+  border-radius: 10px;
+  -webkit-box-shadow: 0px 3px 3px #000000;
+  -moz-box-shadow: 0px 3px 3px #000000;
+  box-shadow: 4px 5px 4px #000000;
 }
 
 .restaurants-img {
   width:452px;
   height:268px;
+  border-radius: 10px;  
 }
 
+.noimg {
+  width:452px;
+  height:268px;
+  color:red;
+  border-radius: 10px;  
+}
 .flex-container{
   display: flex;
+  justify-content: center;  
   width: 100%;
   flex-direction: row;
   flex-wrap: wrap;
@@ -172,7 +195,10 @@ p{
 }
 
 
-
+.footer {
+  width:100%;
+  background-color:#333333;
+}
 .rating {
   color:green;
 }
