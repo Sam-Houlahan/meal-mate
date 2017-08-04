@@ -29,6 +29,11 @@ class Food extends React.Component {
     this.handleScroll = this.handleScroll.bind(this)
   }
 
+  componentWillUpdate () {
+    this.handleScroll()
+  }
+
+
   componentDidMount () {
     navigator.geolocation.getCurrentPosition((position, err) => {
       if (err) console.log (err)
@@ -57,7 +62,6 @@ class Food extends React.Component {
   }
 
   handleSubmit (event) {
-    this.handleScroll()
     event.preventDefault()
     const clickedOptions = this.state.cuisinesList.filter(cuisine => cuisine.checked).map(cuisine => cuisine.value.toString())
     let option = randomOptions(clickedOptions)
@@ -114,17 +118,18 @@ class Food extends React.Component {
           </form>
           {this.state.displayMessage && <h4> Meal-Mate has chosen <strong className='option' >{this.state.option}</strong>  Enjoy!</h4>}<br />
         </div>
-        <div className='flex-container'>
-          <Element name="restaurants"></Element>
+        <div id='restaurants' className='flex-container'>
+            <Element name="restaurants"></Element>
           {this.state.restaurants.map((restaurant, i) => {
+            const ratingStyle = {color: `#${restaurant.restaurant.user_rating.rating_color}`}
             return (
-              <div className='animated fadeIn restaurants' id='restaurants' key={i}>
+              <div className='animated fadeIn restaurants' key={i}>
                 {restaurant.restaurant.featured_image !== '' ? <img className='restaurants-img' src={restaurant.restaurant.featured_image} /> : <h4 className='noimg'>Sorry this restaurant does not have a featured image to show :(</h4>}
                 <h3>{restaurant.restaurant.name}</h3>
                 <p><strong>Address:</strong> {restaurant.restaurant.location.address}</p>
                 <p><strong>Average cost for two:</strong> ${restaurant.restaurant.average_cost_for_two }</p>
                 <p><a href={restaurant.restaurant.menu_url}><strong>Menu</strong></a></p>
-                <p><strong>Rating:</strong> <span className={classNames('badrating', {'rating': this.state.rating})} >{restaurant.restaurant.user_rating.aggregate_rating } "{restaurant.restaurant.user_rating.rating_text}" </span></p>
+                <p><strong>Rating:</strong> <span style={ratingStyle}>{restaurant.restaurant.user_rating.aggregate_rating } "{restaurant.restaurant.user_rating.rating_text}" </span></p>
               </div>
             )
           })}
