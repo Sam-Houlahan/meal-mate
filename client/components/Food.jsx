@@ -1,12 +1,11 @@
 import React from 'react'
 import classNames from 'classnames'
 import Scroll from 'react-scroll'
-var Element = Scroll.Element
-var scroller = Scroll.scroller
-
 import {randomOptions} from '../utilities/food'
 import {getFood} from '../api'
 const data = require('./data/cuisines.json')
+const Element = Scroll.Element
+const scroller = Scroll.scroller
 
 class Food extends React.Component {
   constructor (props) {
@@ -26,13 +25,10 @@ class Food extends React.Component {
     this.handleSubmit = this.handleSubmit.bind(this)
     this.handleDistance = this.handleDistance.bind(this)
     this.handleBudget = this.handleBudget.bind(this)
-    this.handleScroll = this.handleScroll.bind(this)
   }
 
-  componentWillUpdate () {
-    this.handleScroll()
+  componentDidUpdate () {
   }
-
 
   componentDidMount () {
     navigator.geolocation.getCurrentPosition((position, err) => {
@@ -41,15 +37,6 @@ class Food extends React.Component {
         userLat: position.coords.latitude,
         userLng: position.coords.longitude
       })
-    })
-  }
-
-  handleScroll () {
-    scroller.scrollTo('restaurants', {
-      duration: 1500,
-      delay: 100,
-      smooth: true,
-      containerId: 'restaurants'
     })
   }
 
@@ -62,6 +49,12 @@ class Food extends React.Component {
   }
 
   handleSubmit (event) {
+    scroller.scrollTo('restaurants', {
+      duration: 1500,
+      delay: 100,
+      smooth: true,
+      containerId: 'restaurants'
+    })
     event.preventDefault()
     const clickedOptions = this.state.cuisinesList.filter(cuisine => cuisine.checked).map(cuisine => cuisine.value.toString())
     let option = randomOptions(clickedOptions)
@@ -103,7 +96,7 @@ class Food extends React.Component {
         <div className='foodbox text-center' >
           <h3>Click your potential cuisine options and let <strong>Meal-Mate</strong> choose for you: </h3>
           <div className='wrapper'>
-            <div className='buttons'>
+            <div className='buttons text-center'>
               {this.state.cuisinesList.map(cuisine => {
                 return (
                   <button key={cuisine.value} name={cuisine.name} value={cuisine.value} className={classNames('buttons', 'btns', {'checked': cuisine.checked})} onClick={() => this.handleClick(cuisine)} > {cuisine.name}</button>
@@ -118,12 +111,12 @@ class Food extends React.Component {
           </form>
           {this.state.displayMessage && <h4> Meal-Mate has chosen <strong className='option' >{this.state.option}</strong>  Enjoy!</h4>}<br />
         </div>
-        <div id='restaurants' className='flex-container'>
-            <Element name="restaurants"></Element>
+        <Element name="restaurants"></Element>
+        <div className='flex-container'>
           {this.state.restaurants.map((restaurant, i) => {
             const ratingStyle = {color: `#${restaurant.restaurant.user_rating.rating_color}`}
             return (
-              <div className='animated fadeIn restaurants' key={i}>
+              <div className='animated fadeIn restaurants' id='rstaurants' key={i}>
                 {restaurant.restaurant.featured_image !== '' ? <img className='restaurants-img' src={restaurant.restaurant.featured_image} /> : <h4 className='noimg'>Sorry this restaurant does not have a featured image to show :(</h4>}
                 <h3>{restaurant.restaurant.name}</h3>
                 <p><strong>Address:</strong> {restaurant.restaurant.location.address}</p>
