@@ -6,16 +6,16 @@ router.post('/register', (req, res) => {
   const email = req.body.email
   const password = req.body.password
   db.addUser(req.server.get('connection'), email, password)
-  .then(() => {
-    res.redirect('/')
-  })
+    .then(() => {
+      res.redirect('/')
+    })
 })
 
 router.post('/login'), (req, res) => {
   db.getUser(req.server.get('connection'))
-  .then(() => {
-    res.redirect('/')
-  })
+    .then(() => {
+      res.redirect('/')
+    })
 }
 
 router.get('/category_history/:id'), (req, res) => {
