@@ -43,8 +43,6 @@ p {
   font-size:25px;
 }
 
-
-
 .wrapper {
   display: flex;
   justify-content: center;
@@ -108,7 +106,8 @@ p {
 .restaurants-img {
   width:452px;
   height:268px;
-  border-radius: 10px;  
+  border-top-left-radius: 10px;
+  border-top-right-radius:10px; 
 }
 
 .noimg {
