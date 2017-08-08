@@ -94,7 +94,7 @@ class Food extends React.Component {
     return (
       <div className='foodcategories text-center' >
         <div className='foodbox text-center' >
-          <h3>Click your potential cuisine options and let <strong>Meal-Mate</strong> choose for you: </h3>
+          <h3 className='food-title'>Click your potential cuisine options and let <strong>Meal-Mate</strong> choose for you: </h3>
           <div className='wrapper'>
             <div className='buttons text-center'>
               {this.state.cuisinesList.map(cuisine => {
@@ -109,7 +109,7 @@ class Food extends React.Component {
             <h4 className='distance'> Budget:<br /><br /><input type='text' onChange={this.handleBudget} className='form-control'placeholder='Enter what you would like to pay per person' /></h4>
             <button className='btns text-center' type='submit'>Click to get your option</button>
           </form>
-          {this.state.displayMessage && <h4> Meal-Mate has chosen <strong className='option' >{this.state.option}</strong>  Enjoy!</h4>}<br />
+          {this.state.displayMessage && <h3 className='food-title'> Meal-Mate has chosen <strong className='option' >{this.state.option}</strong>  Enjoy!</h3>}<br />
         </div>
         <Element name="restaurants"></Element>
         <div className='flex-container'>
